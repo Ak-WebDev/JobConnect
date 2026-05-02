@@ -31,21 +31,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(cors->{})
                 .csrf(csrf -> csrf.disable())
-                .sessionManagement(session->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(
                                 "/",
-                                "https://jobconnect-plew.onrender.com/api/auth/**",
-                                "https://jobconnect-plew.onrender.com/swagger-ui/**",
-                                "https://jobconnect-plew.onrender.com/swagger-ui.html",
-                                "https://jobconnect-plew.onrender.com/v3/api-docs/**"
+                                "/error",
+                                "/api/auth/**",
+                                "/swagger-ui/**",
+                                "/v3/api-docs/**"
                         ).permitAll()
                         .anyRequest().authenticated()
-                )
-                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
+                );
 
         return http.build();
     }
